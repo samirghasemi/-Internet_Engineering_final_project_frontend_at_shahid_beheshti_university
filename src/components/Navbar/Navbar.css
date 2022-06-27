@@ -1,0 +1,45 @@
+body {
+  direction: rtl;
+  font-family: "iranyekan";
+}
+.navbar__button {
+  margin-right: auto;
+  padding: 0 12px;
+  font-family: "iranyekan";
+  position: relative;
+  height: 28px;
+  line-height: 28px;
+  font-size: 12px;
+  color: #808080;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  background-color: white;
+  border-radius: 4px;
+  padding: 0px 4px;
+  display: inline-block;
+  background: transparent;
+}
+.navbar__category__block:hover {
+  color: #d73948;
+}
+
+.navbar__category__container {
+  display: inline-flex;
+  position: relative;
+  height: 48px;
+  width: 100%;
+  padding: 0px 40px;
+  background-color: #f9fafb;
+  flex-direction: row;
+  align-items: center;
+}
+.navbar__category__block {
+  font-family: "iranyekan";
+  color: #808080;
+  cursor: pointer;
+  padding: 0;
+  line-height: 48px;
+  -webkit-margin-end: 24px;
+  margin-inline-end: 24px;
+  font-size: 14px;
+}
