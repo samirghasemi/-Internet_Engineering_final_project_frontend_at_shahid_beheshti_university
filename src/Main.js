@@ -1,5 +1,6 @@
 import "./components/Navbar/Navbar";
 import Navbar from "./components/Navbar/Navbar";
+import "./Main.css";
 import { ReactComponent as ReactLogo } from "./torob_logo.svg";
 function Main() {
   return (
@@ -16,7 +17,7 @@ function Main() {
             <p className="Main__p1">موتور جستجوی هوشمند خرید</p>
           </div>
         </div>
-        <form>
+        <form className="Main__search">
           <button type="submit" className="search-button">
             <img src="https://img.icons8.com/external-thin-kawalan-studio/24/000000/external-magnifier-shipping-delivery-thin-kawalan-studio.png" />
           </button>

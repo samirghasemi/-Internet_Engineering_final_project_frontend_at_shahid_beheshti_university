@@ -1,0 +1,19 @@
+.tab__title {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.tab__title__name {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 28px;
+  margin: 4px 2px;
+}
+.tab__title__name__detail {
+  font-size: 12px;
+  line-height: 28px;
+  padding: 2px 0px;
+}
+.tab__title__hr {
+  margin: 0px 0px !important;
+}
