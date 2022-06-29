@@ -1,0 +1,36 @@
+.ProductsCard__container {
+  margin-right: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 35px;
+  margin-left: 15px;
+}
+@media (min-width: 800px) {
+  .ProductsCard__container {
+    width: 80%;
+  }
+  .brand__search {
+    padding: 0px 16px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    bottom: 0;
+    overflow-y: auto;
+    height: 100vh;
+  }
+}
+@media (max-width: 790px) {
+  .ProductsCard__container {
+    width: 100%;
+  }
+  .brand__search {
+    display: none;
+  }
+}
+.ProductsCard__checklist {
+  display: flex;
+  flex-direction: row;
+  direction: ltr;
+}

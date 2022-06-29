@@ -1,12 +1,24 @@
 import TabModal from "./TabModal";
 import "./Tabclicked.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 function Tabclicked() {
+  const navigate = useNavigate();
   const categories = useSelector((state) => state.item);
   console.log(categories);
+  const Dispatch = useDispatch();
+  const linkclicked = (e, path) => {
+    e.preventDefault();
+    Dispatch({ type: "link" });
+    navigate("/home");
+    navigate(path);
+  };
   return (
     <TabModal>
-      <div className="tab__title">{categories.category}</div>
+      <Link to={"/browse"} onClick={(e) => linkclicked(e, "/browse")}>
+        <div className="tab__title">{categories.category}</div>
+      </Link>
       <hr className="tab__title__hr" />
 
       {categories.subcategory.map((subject) => (

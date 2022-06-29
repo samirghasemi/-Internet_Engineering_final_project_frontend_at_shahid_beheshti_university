@@ -8,7 +8,9 @@ const shopReducer = (state = { clicked: false, item: {} }, action) => {
         item: state.clicked ? {} : action.payload,
       };
     case "delete":
-      return { clicked: false, item: {} };
+      return { ...action, clicked: false };
+    case "link":
+      return { ...state, clicked: false };
     default:
       return state;
   }

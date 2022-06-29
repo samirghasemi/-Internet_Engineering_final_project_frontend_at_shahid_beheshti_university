@@ -1,0 +1,25 @@
+[
+  {
+    "id": 1,
+    "name": "گوشی اپل iPhone 13 Pro max (Not Active) | حافظه 256 گیگابایت ا Apple iPhone 13 Pro max (Not Active) 256 GB",
+    "img": "https://storage.torob.com/backend-api/base/images/Np/T-/NpT-mU7_pyaDS9BX.jpg_/216x216.jpg",
+    "minPrice": "۴۵٫۶۹۹٫۰۰۰ ",
+    "maxPrice": "۵۸٫۵۰۰٫۰۰۰",
+    "specification": [
+      {
+        "رنگ ": " آبی, سبز, طلایی, مشکی, نقره ایی",
+        "گارانتی": "گارانتی 18 ماهه",
+        "حافظه داخلی": "256 گیگابایت",
+        "شبکه 3g": "CDMA2000 1xEV-DO, HSDPA 850 / 900 / 1700(AWS) / 1900 / 2100, HSDPA 850 / 900 / 1900 / 2100, HSPA با سرعت دانلود 42.2 مگابیت بر ثانیه و آپلود 5.76 مگابیت بر ثانیه",
+        "شبکه 4G": "1, 2, 3, 4, 5, 7, 8, 12, 13, 17, 18, 19, 20, 25, 26, 28, 30, 32, 34, 38, 39, 40, 41, 42, 46, 48, 66 – A2412, 1, 2, 3, 4, 5, 7, 8, 20, 28, 38, 40, 41, HSPA 42.2/5.76 Mbps, LTE band, LTE band 1|2100, 2|1900, 3|1800, 4|(1700/2100), 5|850, 7|2600, 8|900, 12|700, 17|700, 34|2100, 38|2600, 39|1900, 40|2300, 41|2500 , 1700|66, LTE-A"
+      }
+    ],
+    "stores": [
+      {
+        "name": "تکنولایف",
+        "price": "۴۵٫۶۹۹٫۰۰۰",
+        "link": "https://api.torob.com/v4/product-page/redirect/?source=next&uid=&discover_method=browse&_bt__experiment=&search_id=62bc7a0f1b3d4ba1c28754b5&suid=62bc7a0f1b3d4ba1c28754b5&bvid=62bc8dc6a926e9177aedc6e3&session_id=hxnjgqbroxzeqolxsfuwyilneqnwpvcw&prk=1dc7dece-ca99-4387-8007-42622beb676b&is_adv=True&btn=buy&shop_rank=0&device=desktop&_url_referrer=&_http_referrer=&_ft__shop_score=not_true_not_false"
+      }
+    ]
+  }
+]

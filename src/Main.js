@@ -1,11 +1,10 @@
 import "./components/Navbar/Navbar";
-import Navbar from "./components/Navbar/Navbar";
 import "./Main.css";
+import { Fragment } from "react";
 import { ReactComponent as ReactLogo } from "./torob_logo.svg";
 function Main() {
   return (
-    <div>
-      <Navbar />
+    <Fragment>
       <div className="Main__false"></div>
       <div className="Main__container">
         <div className="Main__logo__p__container">
@@ -19,7 +18,10 @@ function Main() {
         </div>
         <form className="Main__search">
           <button type="submit" className="search-button">
-            <img src="https://img.icons8.com/external-thin-kawalan-studio/24/000000/external-magnifier-shipping-delivery-thin-kawalan-studio.png" />
+            <img
+              src="https://img.icons8.com/external-thin-kawalan-studio/24/000000/external-magnifier-shipping-delivery-thin-kawalan-studio.png"
+              alt="search_button"
+            />
           </button>
           <input
             type="text"
@@ -29,7 +31,7 @@ function Main() {
           ></input>
         </form>
       </div>
-    </div>
+    </Fragment>
   );
 }
 export default Main;
