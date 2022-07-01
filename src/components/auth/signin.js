@@ -78,7 +78,7 @@ function Signin(props) {
       url = "http://193.141.126.85:4000/api/sign_up";
       fetch(url, {
         method: "POST",
-        mode: "no-cors",
+
         body: JSON.stringify({
           user: {
             avatar: "",
