@@ -11,7 +11,6 @@ function Tabclicked() {
   const linkclicked = (e, path) => {
     e.preventDefault();
     Dispatch({ type: "link" });
-    navigate("/home");
     navigate(path);
   };
   return (

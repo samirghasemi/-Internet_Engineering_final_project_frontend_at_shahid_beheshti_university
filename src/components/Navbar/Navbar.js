@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./Navbar.css";
 import { useDispatch } from "react-redux";
 import React from "react";
-import Signin from "../sign_in_log_in/signin";
+import Signin from "../auth/signin";
 import { useSelector } from "react-redux";
 import Tabclicked from "../tabModal/Tabclicked";
 function Navbar() {
@@ -18,7 +18,6 @@ function Navbar() {
   };
   const modalCloseHandler = () => {
     signModalSet(false);
-    console.log(signModal);
   };
   useEffect(() => {
     fetch("http://localhost:9000/navbar")

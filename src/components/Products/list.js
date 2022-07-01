@@ -8,16 +8,34 @@ import {
   Collapse,
 } from "@mui/material";
 import { useSelector } from "react-redux";
-
+import { useRef } from "react";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 export default function NestedList() {
+  const producers = useRef("");
   const categories = useSelector((state) => state.item);
   const [open, setOpen] = React.useState([true, true, true]);
+  const [category, categorySet] = React.useState(
+    categories.subcategory[0].names
+  );
   const handleClick1 = () => {
     setOpen([!open[0], open[1], open[2]]);
   };
   const handleClick2 = () => {
     setOpen([open[0], !open[1], open[2]]);
+  };
+  const changeHandler = () => {
+    if (producers.current.value.length === 0)
+      categorySet(categories.subcategory[0].names);
+    else {
+      categorySet(
+        categories.subcategory[0].names.filter(
+          (item) =>
+            item.name.slice(5).slice(0, producers.current.value.length) ===
+            producers.current.value
+        )
+      );
+      console.log(category);
+    }
   };
   return (
     <List
@@ -63,12 +81,14 @@ export default function NestedList() {
           <div className="Searchbrand__input__container">
             <input
               className="Searchbrand__input"
+              ref={producers}
+              onChange={changeHandler}
               type={"text"}
               placeholder="جستجوی برند"
             ></input>
           </div>
         </form>
-        {categories.subcategory[0].names.map((value) => {
+        {category.map((value) => {
           return (
             <List component="div" disablePadding>
               <ListItemButton sx={{ pl: 1 }}>

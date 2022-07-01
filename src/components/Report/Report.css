@@ -1,0 +1,42 @@
+.report__input__container {
+  margin-right: 25px;
+}
+.report__label {
+  font-size: 16px;
+  padding: 5px;
+  color: black;
+  font-weight: 500;
+}
+.report__input {
+  height: 10rem;
+  width: 80%;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: row;
+  font-family: "iranyekan";
+  margin-top: 10px;
+  font-size: 16px;
+  text-align: right;
+}
+.report__input::placeholder {
+  font-size: 16px;
+  align-self: flex-start;
+  margin-top: 0px;
+  font-family: "iranyekan";
+}
+.report__button__send {
+  width: 20%;
+  height: 40px;
+  margin-right: 10px;
+  margin-top: 15px;
+  font-family: "iranyekan";
+  color: white;
+  border-color: rgb(74, 144, 226);
+  border-radius: 10px;
+  outline: none;
+  background-color: rgb(74, 144, 226);
+  cursor: pointer;
+}
+.report__button__send:hover {
+  opacity: 0.9;
+}

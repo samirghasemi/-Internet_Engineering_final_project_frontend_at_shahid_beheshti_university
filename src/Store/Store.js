@@ -1,14 +1,18 @@
 import { createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-const shopReducer = (state = { clicked: false, item: {} }, action) => {
+const shopReducer = (
+  state = { clicked: false, item: {}, signin: false, signintoken: "" },
+  action
+) => {
   switch (action.type) {
     case "Clicked":
       return {
+        ...state,
         clicked: !state.clicked,
-        item: state.clicked ? {} : action.payload,
+        item: action.payload,
       };
     case "delete":
-      return { ...action, clicked: false };
+      return { ...state, clicked: false };
     case "link":
       return { ...state, clicked: false };
     default:
