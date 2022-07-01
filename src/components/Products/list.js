@@ -10,8 +10,13 @@ import {
 import { useSelector } from "react-redux";
 import { useRef } from "react";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { useLocation, useNavigate } from "react-router-dom";
 export default function NestedList() {
   const producers = useRef("");
+  const minPrice = useRef("");
+  const maxPrice = useRef("");
+  const location = useLocation();
+  const nav = useNavigate();
   const categories = useSelector((state) => state.item);
   const [open, setOpen] = React.useState([true, true, true]);
   const [category, categorySet] = React.useState(
@@ -27,14 +32,23 @@ export default function NestedList() {
     if (producers.current.value.length === 0)
       categorySet(categories.subcategory[0].names);
     else {
+      let pattern = new RegExp(producers.current.value);
       categorySet(
-        categories.subcategory[0].names.filter(
-          (item) =>
-            item.name.slice(5).slice(0, producers.current.value.length) ===
-            producers.current.value
+        categories.subcategory[0].names.filter((item) =>
+          pattern.test(item.name.slice(item.name.indexOf(" ") + 1))
         )
       );
-      console.log(category);
+    }
+  };
+  const brandQueryHandler = (item) => {
+    item.replace(" ", "_");
+    nav(item);
+  };
+  const priceQueryHandler = () => {
+    if (minPrice.current.value > maxPrice.current.value)
+      alert("کمترین قیمت از بزرگترین نباید بیشتر باشد");
+    else {
+      nav("?lt=" + minPrice.current.value + "&gt=" + maxPrice.current.value);
     }
   };
   return (
@@ -91,7 +105,10 @@ export default function NestedList() {
         {category.map((value) => {
           return (
             <List component="div" disablePadding>
-              <ListItemButton sx={{ pl: 1 }}>
+              <ListItemButton
+                sx={{ pl: 1 }}
+                onClick={() => brandQueryHandler(value.name)}
+              >
                 <ListItemText
                   primaryTypographyProps={{
                     fontSize: "14px",
@@ -103,7 +120,7 @@ export default function NestedList() {
                     justifyContent: "right",
                     alignItems: "center",
                   }}
-                  primary={value.name.slice(5)}
+                  primary={value.name.slice(value.name.indexOf(" ") + 1)}
                 />
               </ListItemButton>
             </List>
@@ -142,20 +159,26 @@ export default function NestedList() {
           <div className="price__filter__inp__button">
             <div className="price__filter__container">
               <div className="price__filter__input__span">
-                <input className="price__filter" type={"text"}></input>
+                <input
+                  className="price__filter"
+                  type={"text"}
+                  ref={maxPrice}
+                ></input>
                 <span className="price__filter__span">تا</span>
               </div>
               <div className="price__filter__input__span">
                 <input
                   defaultValue={0}
                   className="price__filter"
+                  ref={minPrice}
                   type={"text"}
                 ></input>
                 <span className="price__filter__span">از</span>
               </div>
             </div>
             <input
-              type="submit"
+              type="button"
+              onClick={priceQueryHandler}
               value="اعمال فیلتر قیمت"
               className="price__filter__submit"
             />

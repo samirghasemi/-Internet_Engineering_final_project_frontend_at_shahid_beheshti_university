@@ -31,6 +31,7 @@ body {
   padding: 0px 40px;
   background-color: #f9fafb;
   flex-direction: row;
+  overflow: visible;
   align-items: center;
 }
 .navbar__category__block {
@@ -44,4 +45,56 @@ body {
   font-size: 14px;
   background-color: transparent;
   border: 0;
+}
+.navbar__logo {
+  min-height: 50px;
+  height: fit-content;
+  margin-right: 15px;
+  display: flex;
+  flex-direction: row;
+  background-color: #f9fafb;
+  align-items: center;
+  text-decoration: none;
+}
+.navbar__h1 {
+  color: #d73948;
+  margin-right: 5px;
+}
+.navbar__search {
+  background-color: white;
+  margin-top: 10px;
+  height: 40px;
+  margin-right: 10px;
+  display: flex;
+  width: 30%;
+  border: 1px solid black;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+.navbar__search__input {
+  height: 100%;
+  border: none;
+  outline: none;
+  width: 85%;
+}
+.navbar__search__input::placeholder {
+  font-family: "iranyekan";
+  font-size: 16px;
+}
+.navbar__search__button {
+  width: 15%;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  background-color: #d73948;
+}
+.Navbar__Avatar {
+  font-family: "iranyekan";
+  cursor: pointer;
+  display: inline-block;
+  position: absolute;
+  left: 25px;
 }

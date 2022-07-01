@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 
 import "./AllProducts.css";
 import NestedList from "./list";
+import { useLocation } from "react-router-dom";
 function AllProducts() {
+  const location = useLocation();
   const [products, productsSet] = useState([]);
   useEffect(() => {
     fetch("http://localhost:9000/browse/products")
