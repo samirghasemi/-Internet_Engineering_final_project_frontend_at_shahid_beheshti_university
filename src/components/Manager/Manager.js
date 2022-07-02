@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Changeinfo from "./ChangeInfo";
 import ReportShow from "./ReportShow";
+import { combineReducers } from "redux";
 function Playground(props) {
   const defaultProps = {
     options: Object.values(props)[0],
@@ -21,7 +22,11 @@ function Playground(props) {
         {...defaultProps}
         id="disable-close-on-select"
         onChange={(event, value) =>
-          props.func(Object.values(props)[0].indexOf(value))
+          {
+
+            props.func(Object.values(props)[0][1].id)
+            console.log(Object.values(props))
+          }
         }
         renderInput={(params) => (
           <TextField {...params} label={props.name} variant="standard" />
@@ -41,10 +46,15 @@ function AddProduct() {
   };
   const [category, categorySet] = React.useState(false);
   const [subCategory, subCategorySet] = React.useState(false);
+  
   const categoryHandler = (input) => {
     categorySet(input);
     const temp1 = [];
-    all[input].subcategory.map((item) => temp1.push({ title: item.title }));
+    console.log(all)
+    console.log(input)
+    let tempAbbas = all.filter(({id}) => id == input)
+    console.log(tempAbbas)
+    // all[input].subcategory.map((item) => temp1.push({ title: item.title , id: item.id}));
     catSubSet(temp1);
     // temp1.push({ title: categories[input].title });
   };
@@ -67,7 +77,7 @@ function AddProduct() {
     fetch("http://193.141.126.85:4000/api/category").then(async (res) => {
       const cat = await res.json();
       const temp = [];
-      cat.map((item) => temp.push({ title: item.category }));
+      cat.map((item) => temp.push({ title: item.category , id: item.id}));
       categoriesSet(temp);
       setall(cat);
     });
@@ -77,8 +87,8 @@ function AddProduct() {
       <div>
         <Playground
           props={[
-            { title: "ایجاد کالای جدید" },
-            { title: "اضافه کردن کالا به فروشگاه" },
+            { title: "ایجاد کالای جدید" ,id:0},
+              { title: "اضافه کردن فروشگاه",id:1 },
           ]}
           func={procedureHandler}
           name="شیوه اضافه کردن"
@@ -108,8 +118,8 @@ function AddProduct() {
         {subCategory !== false && (
           <Playground
             props={[
-              { title: "ایجاد کالای جدید" },
-              { title: "اضافه کردن فروشگاه" },
+              { title: "ایجاد کالای جدید" ,id:0},
+              { title: "اضافه کردن فروشگاه",id:1 },
             ]}
             func={procedureHandler}
             name=" مدل ها"
