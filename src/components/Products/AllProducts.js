@@ -14,20 +14,32 @@ function AllProducts() {
     console.log(params.id1);
     console.log(params.id2);
     console.log(params.id3);
+    let min_price = -10
+    let max_price =10000
     fetch("http://193.141.126.85:4000/api/models")
       .then(async (res) => await res.json())
       .then((item) => {
         temp = item;
+        let res;
         if (params.id1) {
-          temp.filter((item) => item.category.toString() === params.id1);
-          if (params.id2) {
-            temp.filter((item) => item.subcategory.toString() === params.id2);
-            if (params.id3) {
-              temp.filter((item) => item.brand.toString() === params.id3);
-            }
-          }
+          res = temp.filter(({category}) => category == params.id1);
         }
-        productsSet(item);
+        if (params.id2) {
+          res = res.filter(({subcategory}) => subcategory == params.id2);
+        }
+        if (params.id3) {
+          res = res.filter(({brand}) => brand == params.id3);
+        }
+        if (min_price) {
+          res = res.filter(({price}) => price >= min_price);
+        }
+        if (max_price) {
+          res = res.filter(({price}) => price <= max_price);
+        }
+
+        console.log(res);
+        
+        productsSet(res);
       });
   }, []);
   return products === false ? (
