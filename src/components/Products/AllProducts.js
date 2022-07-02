@@ -5,70 +5,44 @@ import "./AllProducts.css";
 import NestedList from "./list";
 import { useLocation } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 function AllProducts() {
   const params = useParams();
   const location = useLocation();
+  const sign_in = useSelector((state) => state.signin);
+  const id = useSelector((state) => state.id);
   const [products, productsSet] = useState(false);
+  const [likes, likesSet] = useState(false);
   useEffect(() => {
     var temp = [];
-    console.log(params.id1);
-    console.log(params.id2);
-    console.log(params.id3);
-    let min_price = -10
-    let max_price =10000
-    
-    // filtering
     fetch("http://193.141.126.85:4000/api/models")
       .then(async (res) => await res.json())
       .then((item) => {
         temp = item;
-        let res;
         if (params.id1) {
-          res = temp.filter(({category}) => category == params.id1);
+          temp.filter((item) => item.category.toString() === params.id1);
+          if (params.id2) {
+            temp.filter((item) => item.subcategory.toString() === params.id2);
+            if (params.id3) {
+              temp.filter((item) => item.brand.toString() === params.id3);
+            }
+          }
         }
-        if (params.id2) {
-          res = res.filter(({subcategory}) => subcategory == params.id2);
-        }
-        if (params.id3) {
-          res = res.filter(({brand}) => brand == params.id3);
-        }
-        if (min_price) {
-          res = res.filter(({price}) => price >= min_price);
-        }
-        if (max_price) {
-          res = res.filter(({price}) => price <= max_price);
-        }
-        
-        
-        productsSet(res);
+        productsSet(item);
       });
-      
-    // search  
-    let search = "iphone"
-    fetch("http://193.141.126.85:4000/api/models")
-      .then(async (res) => await res.json())
-      .then((item) => {
-        temp = item;
-        let res2;
-        if(search){
-          res2 = temp.filter(({name}) => name.toLowerCase().includes(search.toLowerCase()));
-        }else{
-          res2 =item
-        }
-        
-        productsSet(res2);
-      });
-
+    if (sign_in) {
+      fetch("http://193.141.126.85:4000/api/users/" + id)
+        .then(async (res) => await res.json())
+        .then((items) => likesSet(items.data.likes));
+    }
   }, []);
-
-  
   return products === false ? (
     <div></div>
   ) : (
     <div className="ProductsCard__checklist">
       <div className="ProductsCard__container">
         {products.map((product) => {
-          return <ProductCard key={product.id} detail={product} />;
+          return <ProductCard key={product.id} detail={product} like={likes} />;
         })}
       </div>
       <div className="brand__search">

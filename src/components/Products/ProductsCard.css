@@ -2,7 +2,7 @@
   display: flex;
   width: 20vmin;
   min-width: 150px;
-  height: fit-content;
+  height: 350px;
   background-color: white;
   flex-direction: column;
   margin-top: 10px;
@@ -23,6 +23,7 @@
   letter-spacing: -0.2px;
   margin-top: 20px;
   direction: rtl;
+  height: 100px;
 }
 
 .card__img {

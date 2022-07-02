@@ -7,14 +7,25 @@ import { useSelector } from "react-redux";
 import { IconButton } from "@mui/material";
 import "./ProductsCard.css";
 import { useState } from "react";
+import { useEffect } from "react";
 function ProductCard(props) {
-  const like = props.like ? true : false;
+  const [likeid, likeidSet] = useState(false);
+  const [touched, touchedSet] = useState(false);
+  // if (props.like !== false) {
+  //   const likes = props.like.filter(
+  //     (item) => item.model.id === props.detail.id
+  //   );
+  //   if (likes.length !== 0) {
+  //     likeidSet(likes[0].id);
+  //     touchedSet(true);
+  //   }
+  // }
+  const id = useSelector((state) => state.id);
   const [signModal, signModalSet] = useState(false);
   const close = () => {
     signModalSet(false);
   };
   const token = useSelector((state) => state.signintoken);
-  const [touched, touchedSet] = useState(like);
   const auth = useSelector((state) => state.signin);
   const likeclickHandler = () => {
     if (auth) {
@@ -35,11 +46,38 @@ function ProductCard(props) {
           },
         }).then(async (res) => {
           if (res.ok) {
-            console.log(await res.json());
+            var temp = await res.json();
+            likeidSet(temp.id);
+            touchedSet(!touched);
           } else {
             try {
               const data = await res.json();
-              let errorMessage = "Authentication failed!";
+              let errorMessage = " failed!";
+              // if (data && data.error && data.error.message) {
+              //   errorMessage = data.error.message;
+              // }
+              throw new Error(errorMessage);
+            } catch (err) {
+              alert(err.message);
+            }
+          }
+        });
+      } else if (touched && likeid !== false) {
+        const url = "http://193.141.126.85:4000/api/like/" + likeid;
+        fetch(url, {
+          method: "delete",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }).then(async (res) => {
+          if (res.ok) {
+            likeidSet(false);
+            touchedSet(!touched);
+          } else {
+            try {
+              const data = await res.json();
+              let errorMessage = " failed!";
               // if (data && data.error && data.error.message) {
               //   errorMessage = data.error.message;
               // }
@@ -50,7 +88,6 @@ function ProductCard(props) {
           }
         });
       }
-      touchedSet(!touched);
     } else {
       signModalSet(true);
     }

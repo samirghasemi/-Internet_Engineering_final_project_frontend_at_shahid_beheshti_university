@@ -31,7 +31,7 @@ const shopReducer = (
         admin: action.payload.admin,
       };
     case "sign_out":
-      return { ...state, signin: false, signintoken: "" };
+      return { ...state, signin: false, signintoken: "", id: "", admin: false };
     default:
       return state;
   }

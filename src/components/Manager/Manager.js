@@ -8,6 +8,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Changeinfo from "./ChangeInfo";
+import ReportShow from "./ReportShow";
 function Playground(props) {
   const defaultProps = {
     options: Object.values(props)[0],
@@ -32,9 +33,9 @@ function Playground(props) {
 function AddProduct() {
   const [procedure, procedureSet] = React.useState(false);
   const [catSub, catSubSet] = React.useState(false);
+  const [all, setall] = React.useState(false);
   const [categories, categoriesSet] = React.useState(false);
-  const [subcategories, subcategoriesSet] = React.useState(false);
-  console.log(procedure);
+  const [products, productsSet] = React.useState(false);
   const procedureHandler = (input) => {
     procedureSet(input);
   };
@@ -42,19 +43,33 @@ function AddProduct() {
   const [subCategory, subCategorySet] = React.useState(false);
   const categoryHandler = (input) => {
     categorySet(input);
+    const temp1 = [];
+    all[input].subcategory.map((item) => temp1.push({ title: item.title }));
+    catSubSet(temp1);
+    // temp1.push({ title: categories[input].title });
+  };
+  const subCategoryHandler = (input) => {
+    subCategorySet(input);
+    fetch("http://193.141.126.85:4000/api/models")
+      .then(async (res) => await res.json())
+      .then((item) => {
+        let temp = item;
+        let res;
+        let categorytemp = category;
+        let subcategorytemp = subCategory;
+        res = temp.filter(({ category }) => category == categorytemp);
+        // res = res.filter(({ subcategory }) => subcategory == subcategorytemp);
+
+        console.log(res);
+      });
   };
   React.useEffect(() => {
     fetch("http://193.141.126.85:4000/api/category").then(async (res) => {
       const cat = await res.json();
       const temp = [];
-      console.log(cat);
       cat.map((item) => temp.push({ title: item.category }));
       categoriesSet(temp);
-      const temp1 = [];
-      cat.map((item) =>
-        item.subcategory.map((ti) => temp1.push({ title: ti.title }))
-      );
-      catSubSet(temp1);
+      setall(cat);
     });
   }, []);
   return (
@@ -86,7 +101,7 @@ function AddProduct() {
             props={
               catSub === false ? [{ title: "دسته بندی یافت نشد" }] : catSub
             }
-            func={subCategorySet}
+            func={subCategoryHandler}
             name="زیر دسته"
           />
         )}
@@ -185,7 +200,7 @@ function BasicTabs() {
         <AddProduct />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        <ReportShow />
       </TabPanel>
     </Box>
   );
