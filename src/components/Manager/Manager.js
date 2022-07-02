@@ -29,7 +29,7 @@ function Playground(props) {
           }
         }
         renderInput={(params) => (
-          <TextField {...params} label={props.name} variant="standard" />
+          <TextField {...params} label={prop  s.name} variant="standard" />
         )}
       />
     </Stack>
