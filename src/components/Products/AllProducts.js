@@ -16,6 +16,8 @@ function AllProducts() {
     console.log(params.id3);
     let min_price = -10
     let max_price =10000
+    
+    // filtering
     fetch("http://193.141.126.85:4000/api/models")
       .then(async (res) => await res.json())
       .then((item) => {
@@ -36,12 +38,30 @@ function AllProducts() {
         if (max_price) {
           res = res.filter(({price}) => price <= max_price);
         }
-
-        console.log(res);
+        
         
         productsSet(res);
       });
+      
+    // search  
+    let search = "iphone"
+    fetch("http://193.141.126.85:4000/api/models")
+      .then(async (res) => await res.json())
+      .then((item) => {
+        temp = item;
+        let res2;
+        if(search){
+          res2 = temp.filter(({name}) => name.toLowerCase().includes(search.toLowerCase()));
+        }else{
+          res2 =item
+        }
+        
+        productsSet(res2);
+      });
+
   }, []);
+
+  
   return products === false ? (
     <div></div>
   ) : (
