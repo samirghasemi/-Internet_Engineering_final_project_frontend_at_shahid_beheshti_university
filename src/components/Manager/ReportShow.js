@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 function Report() {
   return (
@@ -9,10 +9,11 @@ function Report() {
 }
 export default function ReportShow() {
   const token = useSelector((state) => state.signintoken);
-  const kol = "Bearer " + token;
-  console.log(kol);
   const id = useSelector((state) => state.id);
   const url = "http://193.141.126.85:4000/api/users/" + id;
+  const [reports, reportsSet] = useState([]);
+  const [shops, shopsSet] = useState([]);
+  var fetc = false;
   useEffect(() => {
     fetch(url, {
       method: "get",
@@ -23,7 +24,7 @@ export default function ReportShow() {
     }).then(async (res) => {
       if (res.ok) {
         let temp = await res.json();
-        temp.data.reports.map((item) => console.log(item));
+        shopsSet(temp.data.shops);
       } else {
         try {
           const data = await res.json();
@@ -41,7 +42,31 @@ export default function ReportShow() {
   return (
     <div>
       <h3>گزارشات</h3>
-      <p>گزارش</p>
+      {shops.map((item) => {
+        return (
+          <div className="shops__report__container">
+            <h2 className="shops__h"> نام فروشگاه : {item.name}</h2>
+            <h4 className="shops__h">توضیحات :{item.desc} </h4>
+            <h4 className="shops__h">لینک فروشگاه :{item.link} </h4>
+            <h4 className="shops__h">گزارش ها : </h4>
+            <div>
+              {item.reports.map((item2) => {
+                return (
+                  <div className="shops__report__container">
+                    <h4 style={{ margin: "10px" }} className="shops__h">
+                      {" "}
+                      مشکل : {item2.message}
+                    </h4>
+                    <h4 className="shops__h" style={{ margin: "10px" }}>
+                      توضیحات :{item2.desc}{" "}
+                    </h4>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

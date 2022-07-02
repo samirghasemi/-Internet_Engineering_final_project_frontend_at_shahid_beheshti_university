@@ -9,15 +9,14 @@ function Tabclicked() {
   console.log(categories);
   const Dispatch = useDispatch();
   const linkclicked = (e, path) => {
-    e.preventDefault();
     Dispatch({ type: "link" });
-    navigate(path);
+    navigate(path, { replace: true });
   };
   return (
     <TabModal>
       <Link
         className="Tab__Link"
-        to={"/browse"}
+        to={"/browse/" + categories.id}
         onClick={(e) => linkclicked(e, "/browse/" + categories.id)}
       >
         <div className="tab__title">{categories.category}</div>

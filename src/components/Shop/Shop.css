@@ -1,0 +1,11 @@
+.shops__report__container {
+  display: flex;
+  border: 1px solid;
+  flex-direction: column;
+  width: 60%;
+  margin-bottom: 10px;
+}
+.shops__h {
+  font-family: iranyekan;
+  margin-right: 10px;
+}

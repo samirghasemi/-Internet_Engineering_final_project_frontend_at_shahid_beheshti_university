@@ -2,14 +2,63 @@ import Modal from "../Modal/Modal";
 import CircularProgress from "@mui/material/CircularProgress";
 import "./Report.css";
 import { useState, useRef } from "react";
-
+import { useSelector } from "react-redux";
 function Report(props) {
-  const usernameInputRef = useRef("");
-  const [options, setOption] = useState(0);
+  const textRef = useRef("");
+  const [options, setOption] = useState(1);
+  const token = useSelector((item) => item.signintoken);
+  let mes =
+    options === 1
+      ? "این کالا مربوط به این صفحه نیست"
+      : options === 2
+      ? "قیمت صحیح نیست"
+      : "-";
+  const SendReportHandler = () => {
+    const url = "http://193.141.126.85:4000/api/report";
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        report: {
+          message: mes,
+          desc:
+            props.product[0].name +
+            "$@$" +
+            (textRef.current.value === undefined ? "" : textRef.current.value),
+        },
+        product_id: props.product[0].id + "",
+        shop_id: props.product[1][3][1] + "",
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          alert("ثبت  با موفقیت انجام شد");
+          props.onclick();
+        } else {
+          return res.json().then((data) => {
+            let errorMessage = "failed!";
+            if (data) {
+              errorMessage = Object.values(Object.values(data)[0])[0][0];
+            }
+            throw new Error(errorMessage);
+          });
+        }
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
   const optionHandler = (item) => {
     setOption(item);
     console.log(item);
   };
+
   return (
     <Modal onClose={props.onclick}>
       <div>
@@ -66,15 +115,16 @@ function Report(props) {
             {options !== 0 && (
               <textarea
                 type="text"
-                ref={usernameInputRef}
-                onChange={() => {
-                  console.log(usernameInputRef.current.value);
-                }}
+                ref={textRef}
                 className="report__input"
                 placeholder="با توضیحات بیشتر ما را در پیگیری بهتر کمک کنید"
               ></textarea>
             )}
-            <button className="report__button__send" type="button">
+            <button
+              className="report__button__send"
+              type="button"
+              onClick={SendReportHandler}
+            >
               ثبت گزارش
             </button>
           </form>

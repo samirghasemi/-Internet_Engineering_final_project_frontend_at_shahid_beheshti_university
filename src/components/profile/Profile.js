@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import ProductCard from "../Products/ProductsCard";
 import "./Profile.css";
 function Profile() {
   const [likedproducts, likedproductsSet] = useState(false);
   const [lastseenproducts, lastseenproductsSet] = useState(false);
+  const id = useSelector((state) => state.id);
   useEffect(() => {
-    fetch("http://193.141.126.85:4000/api/users/1")
+    fetch("http://193.141.126.85:4000/api/users/" + id)
       .then((res) => res.json())
       .then((items) => likedproductsSet(items.data.likes));
   }, []);

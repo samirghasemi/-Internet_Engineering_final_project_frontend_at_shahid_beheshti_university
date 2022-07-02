@@ -31,7 +31,6 @@ function ProductDetail() {
         productSet([items]);
       });
   }, []);
-  console.log(product);
   return product === false ? (
     <div></div>
   ) : (
@@ -84,7 +83,7 @@ function ProductDetail() {
             <div>
               <h3 className="product__specification__details__h">
                 {product[0].stores.map((items) => {
-                  const [link, key, value] = Object.entries(items);
+                  const [link, key, value, id] = Object.entries(items);
                   return (
                     <div className="product__stores__container">
                       <div className="store__report__container">
@@ -92,7 +91,7 @@ function ProductDetail() {
                           {key[1]}
                         </h4>
                         <button
-                          onClick={() => clickHandler([key, value, link])}
+                          onClick={() => clickHandler([key, value, link, id])}
                           className="report__button"
                         >
                           گزارش
