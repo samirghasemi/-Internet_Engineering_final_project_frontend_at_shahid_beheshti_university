@@ -2,6 +2,7 @@
   display: flex;
   width: 20vmin;
   min-width: 150px;
+  height: fit-content;
   background-color: white;
   flex-direction: column;
   margin-top: 10px;
@@ -30,11 +31,13 @@
   inset: 0px;
   box-sizing: border-box;
   object-fit: contain;
+  width: 145px;
 }
 .price__size {
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
   color: #828282;
+  justify-content: space-between;
 }
 
 .card__link {
@@ -43,4 +46,7 @@
   flex-direction: column;
   color: inherit;
   text-decoration: none;
+}
+.like__button {
+  width: 10px;
 }

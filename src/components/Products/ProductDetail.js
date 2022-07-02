@@ -3,12 +3,14 @@ import "./ProductDetail.css";
 import Report from "../Report/Report";
 import Signin from "../auth/signin";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 function ProductDetail() {
   const auth = useSelector((state) => state.signin);
   const [product, productSet] = useState(false);
   const [signModal, signModalSet] = useState(false);
   const [report, reportSet] = useState(false);
   const [store, storeSet] = useState([]);
+  const params = useParams();
   const clickHandler = (item) => {
     reportSet(true);
     storeSet(item);
@@ -21,11 +23,12 @@ function ProductDetail() {
   const modalCloseHandler = () => {
     signModalSet(false);
   };
+
   useEffect(() => {
-    fetch("http://localhost:9000/apple/promax")
-      .then((res) => res.json())
+    fetch("http://193.141.126.85:4000/api/models/" + params.id)
+      .then(async (res) => await res.json())
       .then((items) => {
-        productSet(items);
+        productSet([items]);
       });
   }, []);
   console.log(product);
@@ -81,7 +84,7 @@ function ProductDetail() {
             <div>
               <h3 className="product__specification__details__h">
                 {product[0].stores.map((items) => {
-                  const [key, value, link] = Object.entries(items);
+                  const [link, key, value] = Object.entries(items);
                   return (
                     <div className="product__stores__container">
                       <div className="store__report__container">

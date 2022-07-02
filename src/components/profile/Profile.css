@@ -1,0 +1,13 @@
+.likedproduct__container {
+  margin-left: 25px;
+  margin-right: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 35px;
+}
+.likedproduct__h {
+  margin-right: 35px;
+  margin-top: 35px;
+}

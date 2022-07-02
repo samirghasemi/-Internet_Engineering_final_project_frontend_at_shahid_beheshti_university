@@ -2,28 +2,25 @@ import { useRef, useState } from "react";
 import Modal from "../Modal/Modal";
 import "./signin.css";
 import CircularProgress from "@mui/material/CircularProgress";
-import Input from "./input";
-import {
-  VALIDATOR_REQUIRE,
-  VALIDATOR_MINLENGTH,
-  VALIDATOR_MAXLENGTH,
-  VALIDATOR_MIN,
-  VALIDATOR_MAX,
-  VALIDATOR_EMAIL,
-} from "./validators";
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import SvgIcon from "@mui/material/SvgIcon";
 import Box from "@mui/material/Box";
+import { useDispatch } from "react-redux";
 function Signin(props) {
   const emailInputRef = useRef("");
   const passwordInputRef = useRef("");
   const usernameInputRef = useRef("");
-
+  const dispatch = useDispatch();
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
-
+  const [visible, visibleSet] = useState(true);
+  const Visibilityhold = (e) => {
+    visibleSet(!visible);
+  };
   const submitHandler = (event) => {
     event.preventDefault();
     const enteredEmail = emailInputRef.current.value;
@@ -44,11 +41,49 @@ function Signin(props) {
       formData.append(name, data[name]);
     }
     if (isLogin) {
-      url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBZhsabDexE9BhcJbGxnZ4DiRlrCN9xe24";
+      url = "http://193.141.126.85:4000/api/sign_in";
       fetch(url, {
         method: "POST",
-        body: formData,
+        body: JSON.stringify({
+          username: enteredUsername,
+          password: enteredPassword,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(async (res) => {
+        setIsLoading(false);
+        if (res.ok) {
+          var values = Object.values(await res.json());
+          dispatch({
+            type: "sign_in",
+            payload: { token: values[2], admin: values[1], id: values[0] },
+          });
+          props.onclick();
+        } else {
+          try {
+            const data = await res.json();
+            let errorMessage = "Authentication failed!";
+            // if (data && data.error && data.error.message) {
+            //   errorMessage = data.error.message;
+            // }
+            throw new Error(errorMessage);
+          } catch (err) {
+            alert(err.message);
+          }
+        }
+      });
+    } else {
+      url = "http://193.141.126.85:4000/api/sign_up";
+      fetch(url, {
+        method: "POST",
+        body: JSON.stringify({
+          user: {
+            username: enteredUsername,
+            email: enteredEmail,
+            password: enteredPassword,
+          },
+        }),
         headers: {
           "Content-Type": "application/json",
         },
@@ -56,49 +91,14 @@ function Signin(props) {
         .then((res) => {
           setIsLoading(false);
           if (res.ok) {
-            return res.json();
+            alert("ثبت نام با موفقیت انجام شد");
+            setIsLogin(true);
           } else {
             return res.json().then((data) => {
               let errorMessage = "Authentication failed!";
-              // if (data && data.error && data.error.message) {
-              //   errorMessage = data.error.message;
-              // }
-
-              throw new Error(errorMessage);
-            });
-          }
-        })
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((err) => {
-          alert(err.message);
-        });
-    } else {
-      url = "http://193.141.126.85:4000/api/sign_up";
-      fetch(url, {
-        method: "POST",
-
-        body: JSON.stringify({
-          user: {
-            avatar: "",
-            username: enteredUsername,
-            email: enteredEmail,
-            password: enteredPassword,
-          },
-        }),
-      })
-        .then((res) => {
-          setIsLoading(false);
-          if (res.ok) {
-            return res.json();
-          } else {
-            return res.json().then((data) => {
-              let errorMessage = "Authentication failed!";
-              // if (data && data.error && data.error.message) {
-              //   errorMessage = data.error.message;
-              // }
-
+              if (data) {
+                errorMessage = Object.values(Object.values(data)[0])[0][0];
+              }
               throw new Error(errorMessage);
             });
           }
@@ -126,49 +126,52 @@ function Signin(props) {
         <span className="signin__title">{isLogin ? "ورود" : "ثبت نام"}</span>
       </div>
       <form className="signin__form" onSubmit={submitHandler}>
-        <label
-          className="signin__mobile__title"
-          style={isLogin ? { display: "none" } : { display: "inherit" }}
-          htmlFor="person_id"
-        >
+        <label className="signin__mobile__title" htmlFor="person_id">
           نام کاربری{" "}
         </label>
-        <Input
-          type={"text"}
-          id="person_id"
-          shown={isLogin}
-          validators={[VALIDATOR_REQUIRE()]}
-          errorText="نام کاربری وارد شده صحیح نیست"
-          ref={usernameInputRef}
-        ></Input>
-        <label className="signin__mobile__title" htmlFor="person_id">
+        <div style={{ display: "flex" }}>
+          <input type={"text"} id="person_id" ref={usernameInputRef} />
+        </div>
+        <label
+          className="signin__mobile__title"
+          htmlFor="person_id"
+          style={isLogin ? { display: "none" } : { display: "inherit" }}
+        >
           ایمیل
         </label>
-        <Input
+        <input
           type={"text"}
-          id="person_id"
           ref={emailInputRef}
-          validators={[VALIDATOR_EMAIL()]}
-          errorText="ایمیل وارد شده صحیح نیست"
-        ></Input>
+          style={isLogin ? { display: "none " } : { display: "inherit" }}
+          id="email"
+          onChange={() => console.log(emailInputRef.current.value)}
+        />
+
         <label className="signin__mobile__title" htmlFor="person_id">
           رمز عبور
         </label>
         <div className="password__input__shownBut">
-          <Input
-            password={true}
-            validators={[VALIDATOR_MINLENGTH(6), VALIDATOR_MAXLENGTH(30)]}
-            errorText="رمز عبور ضعیف است"
-            id="person_id"
-            ref={passwordInputRef}
-          ></Input>
+          <div style={{ display: "flex" }}>
+            <input
+              type={visible ? "password" : "text"}
+              ref={passwordInputRef}
+            />
+            <button
+              type="button"
+              className="password__shown__button"
+              onClick={Visibilityhold}
+            >
+              <SvgIcon
+                component={!visible ? VisibilityOffIcon : VisibilityIcon}
+                inheritViewBox
+              />
+            </button>
+          </div>
         </div>
         <button
           type="button"
           className="auth__change"
           onClick={switchAuthModeHandler}
-          validators={[VALIDATOR_MINLENGTH(4), VALIDATOR_MAXLENGTH(12)]}
-          errorText="username must be valid"
         >
           {isLogin ? "Create new account" : "Login with existing account"}
         </button>

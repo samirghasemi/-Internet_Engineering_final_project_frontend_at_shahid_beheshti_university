@@ -4,6 +4,7 @@
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: wrap;
+  height: fit-content;
   margin-top: 35px;
   margin-left: 15px;
 }

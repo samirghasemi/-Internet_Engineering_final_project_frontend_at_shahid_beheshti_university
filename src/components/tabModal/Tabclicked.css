@@ -17,3 +17,7 @@
 .tab__title__hr {
   margin: 0px 0px !important;
 }
+.Tab__Link {
+  text-decoration: none;
+  color: inherit;
+}

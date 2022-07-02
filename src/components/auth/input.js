@@ -48,7 +48,7 @@ const Input = (props) => {
       <div style={{ display: "flex" }}>
         <input
           style={shown ? { display: "none " } : { display: "inherit" }}
-          type={props.password ? (!visible ? "password" : "text") : props.type}
+          type={props.password ? (visible ? "password" : "text") : props.type}
           onBlur={inputOnblurhandler}
           onChange={inputOnchangehandler}
         />
@@ -59,7 +59,7 @@ const Input = (props) => {
             onClick={Visibilityhold}
           >
             <SvgIcon
-              component={visible ? VisibilityOffIcon : VisibilityIcon}
+              component={!visible ? VisibilityOffIcon : VisibilityIcon}
               inheritViewBox
             />
           </button>

@@ -41,8 +41,8 @@ export default function NestedList() {
     }
   };
   const brandQueryHandler = (item) => {
-    item.replace(" ", "_");
-    nav(item);
+    console.log(item);
+    // nav("browse/" + item.category + "/" + item.subcategory + "/" + item.brand);
   };
   const priceQueryHandler = () => {
     if (minPrice.current.value > maxPrice.current.value)
@@ -107,7 +107,7 @@ export default function NestedList() {
             <List component="div" disablePadding>
               <ListItemButton
                 sx={{ pl: 1 }}
-                onClick={() => brandQueryHandler(value.name)}
+                onClick={() => brandQueryHandler(value)}
               >
                 <ListItemText
                   primaryTypographyProps={{

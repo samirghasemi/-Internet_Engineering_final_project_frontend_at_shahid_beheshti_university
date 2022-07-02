@@ -15,16 +15,39 @@ function Tabclicked() {
   };
   return (
     <TabModal>
-      <Link to={"/browse"} onClick={(e) => linkclicked(e, "/browse")}>
+      <Link
+        className="Tab__Link"
+        to={"/browse"}
+        onClick={(e) => linkclicked(e, "/browse/" + categories.id)}
+      >
         <div className="tab__title">{categories.category}</div>
       </Link>
       <hr className="tab__title__hr" />
 
       {categories.subcategory.map((subject) => (
         <div>
-          <div className="tab__title__name">{subject.title}</div>
+          <Link
+            onClick={(e) =>
+              linkclicked(e, "/browse/" + categories.id + "/" + subject.id)
+            }
+            className="Tab__Link"
+            to={"/browse/" + categories.id + "/" + subject.id}
+          >
+            <div className="tab__title__name">{subject.title}</div>
+          </Link>
           {subject.names.map((name) => (
-            <div className="tab__title__name__detail">{name.name}</div>
+            <Link
+              onClick={(e) =>
+                linkclicked(
+                  e,
+                  "/browse/" + categories.id + "/" + subject.id + "/" + name.id
+                )
+              }
+              className="Tab__Link"
+              to={"/browse/" + categories.id + "/" + subject.id + "/" + name.id}
+            >
+              <div className="tab__title__name__detail">{name.name}</div>
+            </Link>
           ))}
         </div>
       ))}

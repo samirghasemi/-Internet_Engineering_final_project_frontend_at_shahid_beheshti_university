@@ -3,24 +3,27 @@ import IconButton from "@mui/material/IconButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 export default function AccountAvatar() {
   const [anchorEl, setAnchorEl] = React.useState(false);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(false);
   const isMenuOpen = Boolean(anchorEl);
-  const auth = useSelector((state) => state.auth);
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(!anchorEl);
   };
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(false);
   };
-
+  const Dispatch = useDispatch();
   const handleMenuClose = () => {
     setAnchorEl(false);
     handleMobileMenuClose();
   };
-
+  const signOutHandler = () => {
+    Dispatch({ type: "sign_out" });
+  };
+  const profileHandler = () => {};
   const menuId = "primary-search-account-menu";
   return (
     <div>
@@ -50,19 +53,23 @@ export default function AccountAvatar() {
           open={isMenuOpen}
           onClose={handleMenuClose}
         >
-          <MenuItem
-            style={{ fontFamily: "iranyekan" }}
-            onClick={() => {
-              console.log("hello");
-              handleMenuClose();
-            }}
+          <Link
+            to={"/profile"}
+            style={{ textDecoration: "none", color: "inherit" }}
           >
-            پروفایل
-          </MenuItem>
+            <MenuItem
+              style={{ fontFamily: "iranyekan" }}
+              onClick={() => {
+                handleMenuClose();
+              }}
+            >
+              پروفایل
+            </MenuItem>
+          </Link>
           <MenuItem
             style={{ fontFamily: "iranyekan" }}
             onClick={() => {
-              console.log("hello");
+              signOutHandler();
               handleMenuClose();
             }}
           >

@@ -1,0 +1,25 @@
+.Changeinfo__form {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+.Changeinfo__input {
+  height: 30px;
+}
+.Changeinfo__send__button {
+  margin-top: 15px;
+  width: 80%;
+  align-self: center;
+  background-color: #d73948;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: "iranyekan";
+}
+.Changeinfo__send__button:hover {
+  color: #d73948;
+  background-color: white;
+  opacity: 0.9;
+}

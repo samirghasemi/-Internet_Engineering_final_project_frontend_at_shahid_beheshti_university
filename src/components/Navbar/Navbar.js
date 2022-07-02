@@ -23,13 +23,14 @@ function Navbar() {
   const tabClickedHandler = (item) => {
     Dispatch({ type: "Clicked", payload: item });
   };
+
   const modalCloseHandler = () => {
     signModalSet(false);
   };
   const auth = useSelector((state) => state.signin);
   useEffect(() => {
-    fetch("http://localhost:9000/navbar")
-      .then((res) => res.json())
+    fetch("http://193.141.126.85:4000/api/category")
+      .then(async (res) => await res.json())
       .then((items) => navSet(items));
   }, []);
   return nav === [] ? (
