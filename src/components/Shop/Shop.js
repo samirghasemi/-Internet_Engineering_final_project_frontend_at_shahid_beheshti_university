@@ -184,45 +184,6 @@ function BasicTabs(props) {
             </div>
           );
         })}
-
-        {/* <h3 className="product__specification__details__h">
-            const [link, key, value] = Object.entries(items); return (
-            <div className="product__stores__container">
-              <div className="store__report__container">
-                <h4 className="product__specification__details__h">{key[1]}</h4>
-                <button
-                  onClick={() => clickHandler([key, value, link])}
-                  className="report__button"
-                >
-                  گزارش
-                </button>
-              </div>
-              <p>{product[0].name}</p>
-              <div
-                className="product__button__price_container"
-                style={{ fontWeight: "bold" }}
-              >
-                <p style={{ color: "#d73948" }}>{value[1]}</p>
-
-                <button className="product__stores__button">
-                  <a
-                    href={link[1]}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{
-                      textDecoration: "none",
-                      color: "inherit",
-                      padding: "16px",
-                    }}
-                  >
-                    خرید اینترنتی
-                  </a>
-                </button>
-              </div>
-            </div>
-            );
-          </h3>
-        </div> */}
       </TabPanel>
     </Box>
   );
