@@ -22,3 +22,7 @@ The page will reload when you make changes.\
 <img src="https://drive.google.com/uc?export=view&id=14-P2YpuiwdMEQYgat1WHds9eOTLY7jya">
   <h3>Manager Page </h3>
   <img src="https://drive.google.com/uc?export=view&id=1zKHVzByMhACBwXCjPT8UZ-_Z2dJY43Sp">
+  <h3>Report Page </h3>
+  <img src="https://drive.google.com/uc?export=view&id=119C24PaM1hTRjKrac_6GUQ5nF_jDbKfA">
+  <h3>Authentication Page </h3>
+  <img src="https://drive.google.com/uc?export=view&id=1mYzOeI6gQk3sTWsHGjq9UqMTJVIlGwY2">
