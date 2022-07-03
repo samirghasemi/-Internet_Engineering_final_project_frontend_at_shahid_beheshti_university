@@ -1,5 +1,5 @@
 <h1>Torob implementation with React </h1>
-<p>This was done as the Final project of Internet Engineering course of Shahid Beheshti University</p>
+<p>This project was implemented as the Final project of Internet Engineering course of Shahid Beheshti University</p>
 <p>Main page</p>
 <img src="https://drive.google.com/uc?export=view&id=1ADeyyAi3NJvuE2MDD_gkB_q_gh4Ol4RR" >
 
