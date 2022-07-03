@@ -7,6 +7,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import SvgIcon from "@mui/material/SvgIcon";
 import Box from "@mui/material/Box";
 import { useDispatch } from "react-redux";
+import useInputvalidate from "./hooks/Useinput_validate";
 function Signin(props) {
   const emailInputRef = useRef("");
   const passwordInputRef = useRef("");
@@ -21,27 +22,57 @@ function Signin(props) {
   const Visibilityhold = (e) => {
     visibleSet(!visible);
   };
+  let formisValid = false;
+
+  const {
+    value: enteredName,
+    isValid: enteredNameIsValid,
+    hasError: nameInputHasError,
+    valueChangeHandler: nameChangedHandler,
+    inputBlurHandler: nameBlurHandler,
+    reset: resetNameInput,
+  } = useInputvalidate((value) => value.trim() !== "");
+
+  const {
+    value: enteredEmail,
+    isValid: enteredEmailIsValid,
+    hasError: emailInputHasError,
+    valueChangeHandler: emailChangeHandler,
+    inputBlurHandler: emailBlurHandler,
+    reset: resetEmailInput,
+  } = useInputvalidate((value) => /^\S+@\S+\.\S+$/.test(value));
+  const {
+    value: enteredPassword,
+    isValid: enteredPasswordIsValid,
+    hasError: passwordInputHasError,
+    valueChangeHandler: passwordChangeHandler,
+    inputBlurHandler: passwordBlurHandler,
+    reset: resetPasswordInput,
+  } = useInputvalidate((value) =>
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/.test(value)
+  );
+  if (!isLogin) {
+    formisValid =
+      enteredNameIsValid && enteredEmailIsValid && enteredPasswordIsValid
+        ? true
+        : false;
+  } else {
+    formisValid = enteredNameIsValid && enteredPasswordIsValid ? true : false;
+  }
   const submitHandler = (event) => {
     event.preventDefault();
+
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
     const enteredUsername = usernameInputRef.current.value;
-    // optional: Add validation
-    setIsLoading(true);
-    let url;
-    const formData = new FormData();
-    formData.append("user", []);
-    const data = {
-      avatar: [],
-      email: enteredEmail,
-      password: enteredPassword,
-      returnSecureToken: true,
-    };
-    for (const name in data) {
-      formData.append(name, data[name]);
-    }
+
     if (isLogin) {
-      url = "http://193.141.126.85:4000/api/sign_in";
+      if (!formisValid) {
+        alert("مشخصات خود را وارد کنید");
+        return;
+      }
+      setIsLoading(true);
+      let url = "http://193.141.126.85:4000/api/sign_in";
       fetch(url, {
         method: "POST",
         body: JSON.stringify({
@@ -59,11 +90,14 @@ function Signin(props) {
             type: "sign_in",
             payload: { token: values[2], admin: values[1], id: values[0] },
           });
+          localStorage.setItem("token", values[2]);
+          localStorage.setItem("id", values[0]);
+          localStorage.setItem("admin", values[1]);
           props.onclick();
         } else {
           try {
             const data = await res.json();
-            let errorMessage = "Authentication failed!";
+            let errorMessage = "نام کاربری یا رمز عبور صحیح نیست";
             // if (data && data.error && data.error.message) {
             //   errorMessage = data.error.message;
             // }
@@ -74,7 +108,12 @@ function Signin(props) {
         }
       });
     } else {
-      url = "http://193.141.126.85:4000/api/sign_up";
+      if (!formisValid) {
+        alert("مشخصات خود را وارد کنید");
+        return;
+      }
+      setIsLoading(true);
+      let url = "http://193.141.126.85:4000/api/sign_up";
       fetch(url, {
         method: "POST",
         body: JSON.stringify({
@@ -95,10 +134,10 @@ function Signin(props) {
             setIsLogin(true);
           } else {
             return res.json().then((data) => {
-              let errorMessage = "Authentication failed!";
-              if (data) {
-                errorMessage = Object.values(Object.values(data)[0])[0][0];
-              }
+              let errorMessage = "نام کاربری قبلا ثبت شده است";
+              // if (data) {
+              //   errorMessage = Object.values(Object.values(data)[0])[0][0];
+              // }
               throw new Error(errorMessage);
             });
           }
@@ -112,6 +151,15 @@ function Signin(props) {
         });
     }
   };
+  const nameInputClasses = nameInputHasError
+    ? "form-control invalid"
+    : "form-control";
+  const emailInputClasses = emailInputHasError
+    ? "form-control invalid"
+    : "form-control";
+  const passwordInputClasses = passwordInputHasError
+    ? "form-control invalid"
+    : "form-control";
   return (
     <Modal onClose={props.onclick}>
       <button className="Modal__close__button" onClick={props.onclick}>
@@ -129,9 +177,20 @@ function Signin(props) {
         <label className="signin__mobile__title" htmlFor="person_id">
           نام کاربری{" "}
         </label>
-        <div style={{ display: "flex" }}>
-          <input type={"text"} id="person_id" ref={usernameInputRef} />
+        <div className={nameInputClasses}>
+          <input
+            type={"text"}
+            id="person_id"
+            ref={usernameInputRef}
+            onChange={nameChangedHandler}
+            onBlur={nameBlurHandler}
+            value={enteredName}
+          />
+          {nameInputHasError && (
+            <p className="error-text">نام کاربری خالی نمیتواند باشد</p>
+          )}
         </div>
+
         <label
           className="signin__mobile__title"
           htmlFor="person_id"
@@ -139,22 +198,37 @@ function Signin(props) {
         >
           ایمیل
         </label>
-        <input
-          type={"text"}
-          ref={emailInputRef}
-          style={isLogin ? { display: "none " } : { display: "inherit" }}
-          id="email"
-          onChange={() => console.log(emailInputRef.current.value)}
-        />
-
+        <div className={emailInputClasses}>
+          <input
+            type={"text"}
+            ref={emailInputRef}
+            style={isLogin ? { display: "none " } : { display: "inherit" }}
+            id="email"
+            onChange={emailChangeHandler}
+            onBlur={emailBlurHandler}
+            value={enteredEmail}
+          />
+          {emailInputHasError && !isLogin && (
+            <p
+              className="error-text"
+              style={isLogin ? { display: "none " } : { display: "inherit" }}
+            >
+              ایمیل را صحیح وارد کنید
+            </p>
+          )}
+        </div>
         <label className="signin__mobile__title" htmlFor="person_id">
           رمز عبور
         </label>
-        <div className="password__input__shownBut">
+        <div className={passwordInputClasses}>
           <div style={{ display: "flex" }}>
             <input
+              id="password"
               type={visible ? "password" : "text"}
               ref={passwordInputRef}
+              onChange={passwordChangeHandler}
+              onBlur={passwordBlurHandler}
+              value={enteredPassword}
             />
             <button
               type="button"
@@ -167,6 +241,9 @@ function Signin(props) {
               />
             </button>
           </div>
+          {passwordInputHasError && (
+            <p className="error-text">رمز عبور را درست وارد کنید</p>
+          )}
         </div>
         <button
           type="button"

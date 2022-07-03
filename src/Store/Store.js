@@ -4,10 +4,16 @@ const shopReducer = (
   state = {
     clicked: false,
     item: {},
-    signin: false,
-    signintoken: "",
-    admin: false,
-    id: "",
+    signin: localStorage.getItem("token") !== null ? true : false,
+    signintoken:
+      localStorage.getItem("token") === null
+        ? ""
+        : localStorage.getItem("token"),
+    admin:
+      localStorage.getItem("admin") !== null
+        ? localStorage.getItem("admin")
+        : false,
+    id: localStorage.getItem("id") === null ? "" : localStorage.getItem("id"),
     search: [],
   },
   action

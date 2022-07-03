@@ -1,6 +1,5 @@
 import ProductCard from "./ProductsCard";
 import { useEffect, useState } from "react";
-
 import "./AllProducts.css";
 import NestedList from "./list";
 import { useLocation } from "react-router-dom";
@@ -37,7 +36,6 @@ function AllProducts() {
         if (max_price) {
           res = res.filter(({ price }) => price <= max_price);
         }
-
         productsSet(res);
       });
     if (sign_in) {

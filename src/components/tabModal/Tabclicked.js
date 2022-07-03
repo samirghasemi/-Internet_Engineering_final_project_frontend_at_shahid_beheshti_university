@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 function Tabclicked() {
   const navigate = useNavigate();
   const categories = useSelector((state) => state.item);
-  console.log(categories);
   const Dispatch = useDispatch();
   const linkclicked = (e, path) => {
     Dispatch({ type: "link" });

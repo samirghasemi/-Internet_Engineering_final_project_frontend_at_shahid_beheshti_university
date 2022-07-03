@@ -22,6 +22,9 @@ export default function AccountAvatar() {
   };
   const signOutHandler = () => {
     Dispatch({ type: "sign_out" });
+    localStorage.removeItem("token");
+    localStorage.removeItem("id");
+    localStorage.removeItem("admin");
   };
   const profileHandler = () => {};
   const menuId = "primary-search-account-menu";
@@ -64,6 +67,19 @@ export default function AccountAvatar() {
               }}
             >
               پروفایل
+            </MenuItem>
+          </Link>
+          <Link
+            to={"/Manager"}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <MenuItem
+              style={{ fontFamily: "iranyekan" }}
+              onClick={() => {
+                handleMenuClose();
+              }}
+            >
+              پنل مدیریت
             </MenuItem>
           </Link>
           <MenuItem

@@ -10,18 +10,60 @@ import {
 import { useSelector } from "react-redux";
 import { useRef } from "react";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import AllProducts from "./AllProducts";
 export default function NestedList() {
   const producers = useRef("");
   const minPrice = useRef("");
   const maxPrice = useRef("");
+  const params = useParams();
   const location = useLocation();
   const nav = useNavigate();
-  const categories = useSelector((state) => state.item);
+  const storeitem = useSelector((state) => state.item);
+  const [searchcategory, searchcategorySet] = React.useState([]);
   const [open, setOpen] = React.useState([true, true, true]);
-  const [category, categorySet] = React.useState(
-    categories.subcategory[0].names
-  );
+  const [category, categorySet] = React.useState([]);
+  const [allcat, allcatSet] = React.useState([]);
+  React.useEffect(() => {
+    fetch("http://193.141.126.85:4000/api/category")
+      .then(async (res) => await res.json())
+      .then((items) => {
+        let temp = items;
+        let res;
+        if (params.id1) {
+          res = temp.filter(({ id }) => id == params.id1);
+          res = res[0].subcategory;
+          let temp1 = [];
+          res.map((item) => temp1.push({ ...item, category_id: params.id1 }));
+          res = temp1;
+        } else {
+          let cats = [];
+          temp.map((item) => cats.push(...item.subcategory));
+          res = cats;
+        }
+        if (params.id2) {
+          res = res.filter(({ id }) => id == params.id2);
+          res = res[0].names;
+        } else {
+          let subcats = [];
+          res.map((item) => subcats.push(...item.names));
+          res = subcats;
+          console.log(subcats);
+        }
+        if (params.id3) {
+          res = res.filter(({ id }) => id == params.id3);
+        }
+        // if (min_price) {
+        //   res = res.filter(({ price }) => price >= min_price);
+        // }
+        // if (max_price) {
+        //   res = res.filter(({ price }) => price <= max_price);
+        // }
+        categorySet(res);
+        allcatSet(res);
+      });
+  }, [params.id1, params.id2, params.id3]);
+
   const handleClick1 = () => {
     setOpen([!open[0], open[1], open[2]]);
   };
@@ -29,20 +71,27 @@ export default function NestedList() {
     setOpen([open[0], !open[1], open[2]]);
   };
   const changeHandler = () => {
-    if (producers.current.value.length === 0)
-      categorySet(categories.subcategory[0].names);
+    if (producers.current.value.length === 0) categorySet(allcat);
     else {
       let pattern = new RegExp(producers.current.value);
       categorySet(
-        categories.subcategory[0].names.filter((item) =>
+        category.filter((item) =>
           pattern.test(item.name.slice(item.name.indexOf(" ") + 1))
         )
       );
     }
   };
   const brandQueryHandler = (item) => {
-    console.log(item);
-    // nav("browse/" + item.category + "/" + item.subcategory + "/" + item.brand);
+    const id1 = storeitem.id;
+    let temp = storeitem.subcategory;
+    let id2;
+    temp.map((item1) =>
+      item1.names.find((item2) => item2.id === item.id)
+        ? (id2 = item1.id)
+        : void 0
+    );
+
+    window.location.href = id1 + "/" + id2 + "/" + item.id;
   };
   const priceQueryHandler = () => {
     if (minPrice.current.value > maxPrice.current.value)

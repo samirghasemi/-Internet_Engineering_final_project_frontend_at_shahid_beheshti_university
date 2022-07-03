@@ -49,11 +49,15 @@ function Navbar() {
   useEffect(() => {
     fetch("http://193.141.126.85:4000/api/category")
       .then(async (res) => await res.json())
-      .then((items) => navSet(items));
+      .then((items) => {
+        navSet(items);
+      });
 
     fetch("http://193.141.126.85:4000/api/models")
       .then(async (res) => await res.json())
-      .then((items) => modelsSet(items));
+      .then((items) => {
+        modelsSet(items);
+      });
   }, []);
   return nav === [] ? (
     <div></div>
