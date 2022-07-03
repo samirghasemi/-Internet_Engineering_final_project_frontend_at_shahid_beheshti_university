@@ -21,111 +21,70 @@ function Playground(props) {
       <Autocomplete
         {...defaultProps}
         id="disable-close-on-select"
-        onChange={(event, value) =>
-          {
-
-            props.func(Object.values(props)[0][1].id)
-            console.log(Object.values(props))
-          }
-        }
+        onChange={(event, value) => {
+          props.func(Object.values(props)[0][1].id);
+          console.log(Object.values(props));
+        }}
         renderInput={(params) => (
-          <TextField {...params} label={prop  s.name} variant="standard" />
+          <TextField {...params} label={props.name} variant="standard" />
         )}
       />
     </Stack>
   );
 }
+function BasicTextFields() {
+  return (
+    <Box
+      component="form"
+      sx={{
+        "& > :not(style)": { m: 1, width: "25ch" },
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+      <TextField id="filled-basic" label="Filled" variant="filled" />
+      <TextField id="standard-basic" label="Standard" variant="standard" />
+    </Box>
+  );
+}
 function AddProduct() {
-  const [procedure, procedureSet] = React.useState(false);
-  const [catSub, catSubSet] = React.useState(false);
-  const [all, setall] = React.useState(false);
-  const [categories, categoriesSet] = React.useState(false);
-  const [products, productsSet] = React.useState(false);
-  const procedureHandler = (input) => {
-    procedureSet(input);
-  };
-  const [category, categorySet] = React.useState(false);
-  const [subCategory, subCategorySet] = React.useState(false);
-  
-  const categoryHandler = (input) => {
-    categorySet(input);
-    const temp1 = [];
-    console.log(all)
-    console.log(input)
-    let tempAbbas = all.filter(({id}) => id == input)
-    console.log(tempAbbas)
-    // all[input].subcategory.map((item) => temp1.push({ title: item.title , id: item.id}));
-    catSubSet(temp1);
-    // temp1.push({ title: categories[input].title });
-  };
-  const subCategoryHandler = (input) => {
-    subCategorySet(input);
-    fetch("http://193.141.126.85:4000/api/models")
-      .then(async (res) => await res.json())
-      .then((item) => {
-        let temp = item;
-        let res;
-        let categorytemp = category;
-        let subcategorytemp = subCategory;
-        res = temp.filter(({ category }) => category == categorytemp);
-        // res = res.filter(({ subcategory }) => subcategory == subcategorytemp);
+  // const subCategoryHandler = (input) => {
+  //   subCategorySet(input);
+  //   fetch("http://193.141.126.85:4000/api/models")
+  //     .then(async (res) => await res.json())
+  //     .then((item) => {
+  //       let temp = item;
+  //       let res;
+  //       let categorytemp = category;
+  //       let subcategorytemp = subCategory;
+  //       res = temp.filter(({ category }) => category == categorytemp);
+  //       // res = res.filter(({ subcategory }) => subcategory == subcategorytemp);
 
-        console.log(res);
-      });
-  };
+  //       console.log(res);
+  //     });
+  // };
   React.useEffect(() => {
     fetch("http://193.141.126.85:4000/api/category").then(async (res) => {
       const cat = await res.json();
-      const temp = [];
-      cat.map((item) => temp.push({ title: item.category , id: item.id}));
-      categoriesSet(temp);
-      setall(cat);
+      console.log(cat);
     });
   }, []);
   return (
     <div>
-      <div>
-        <Playground
-          props={[
-            { title: "ایجاد کالای جدید" ,id:0},
-              { title: "اضافه کردن فروشگاه",id:1 },
-          ]}
-          func={procedureHandler}
-          name="شیوه اضافه کردن"
-        />
-      </div>
-      <div>
-        {procedure === 1 && (
-          <Playground
-            props={
-              categories === false
-                ? [{ title: "دسته بندی یافت نشد" }]
-                : categories
-            }
-            func={categoryHandler}
-            name=" دسته بندی ها"
-          />
-        )}
-        {category !== false && (
-          <Playground
-            props={
-              catSub === false ? [{ title: "دسته بندی یافت نشد" }] : catSub
-            }
-            func={subCategoryHandler}
-            name="زیر دسته"
-          />
-        )}
-        {subCategory !== false && (
-          <Playground
-            props={[
-              { title: "ایجاد کالای جدید" ,id:0},
-              { title: "اضافه کردن فروشگاه",id:1 },
-            ]}
-            func={procedureHandler}
-            name=" مدل ها"
-          />
-        )}
-      </div>
+      <Box
+        component="form"
+        sx={{
+          "& > :not(style)": { m: 1, width: "25ch" },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+      </Box>
     </div>
   );
 }
@@ -171,7 +130,7 @@ function BasicTabs() {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
         <Tabs
           value={value}
           onChange={handleChange}

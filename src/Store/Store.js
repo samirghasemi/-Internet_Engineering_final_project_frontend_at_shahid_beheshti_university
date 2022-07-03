@@ -8,6 +8,7 @@ const shopReducer = (
     signintoken: "",
     admin: false,
     id: "",
+    search: [],
   },
   action
 ) => {
@@ -32,6 +33,8 @@ const shopReducer = (
       };
     case "sign_out":
       return { ...state, signin: false, signintoken: "", id: "", admin: false };
+    case "search":
+      return { ...state, search: action.payload.searched };
     default:
       return state;
   }

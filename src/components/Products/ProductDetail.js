@@ -48,6 +48,7 @@ function ProductDetail() {
             از {product[0].minPrice} تا {product[0].maxPrice}
           </p>
         </div>
+        <button>اضافه کردن به فروشگاه</button>
       </div>
       <div className="product__store__specification">
         <div className="product__specification">

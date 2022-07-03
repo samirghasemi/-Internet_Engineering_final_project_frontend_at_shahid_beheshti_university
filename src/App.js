@@ -9,6 +9,7 @@ import Profile from "./components/profile/Profile";
 import Manager from "./components/Manager/Manager";
 import Shop from "./components/Shop/Shop";
 import { useSelector } from "react-redux";
+import Search from "./components/Products/Search";
 function App() {
   const auth = useSelector((state) => state.signin);
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/products/:id" element={<ProductDetail />} />
           <Route path="/Manager" element={<Manager />} />
           <Route path="/Shops" element={<Shop />} />
+          <Route path="/Search" element={<Search />} />
           <Route
             path="*"
             element={<h1 style={{ marginRight: "50px" }}>not found</h1>}
