@@ -242,7 +242,7 @@ function Signin(props) {
             </button>
           </div>
           {passwordInputHasError && (
-            <p className="error-text">رمز عبور را درست وارد کنید</p>
+            <p className="error-text">رمز عبور را صحیح وارد کنید</p>
           )}
         </div>
         <button
